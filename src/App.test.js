@@ -35,7 +35,7 @@ test("renders the landing page", async () => {
 test("should be able to search and display dog image results", async () => {
   render(<App />);
 
-  //Simulate selecting an option and verifying its value
+  /* Simulate selecting an option and verifying its value */
   const select = screen.getByRole("combobox");
 
   //wait for the cattledog option to appear in the document
@@ -47,4 +47,18 @@ test("should be able to search and display dog image results", async () => {
 
   // asserts that the select variable contains the cattledog value selected above.
   expect(select).toHaveValue("cattledog");
+
+  /* Simulate initiating the search request */
+
+  // getByRole query locates the search button
+  const searchBtn = screen.getByRole("button", { name: "Search" });
+
+  // toBeDisabled jest-dom matcher will verify that the search button is not disabled when a breed selection is made.
+  expect(searchBtn).not.toBeDisabled();
+  userEvent.click(searchBtn);
+
+  // Loading state displays and gets removed once results are displayed
+  // waitForElementToBeRemoved async helper function wait for the appearance and disappearance of the Loading message.
+  // queryByText within the waitForElementToBeRemoved callback checks for the absence of an element without throwing an error.
+  await waitForElementToBeRemoved(() => screen.queryByText(/Loading/i));
 })
