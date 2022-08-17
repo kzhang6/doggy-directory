@@ -61,4 +61,21 @@ test("should be able to search and display dog image results", async () => {
   // waitForElementToBeRemoved async helper function wait for the appearance and disappearance of the Loading message.
   // queryByText within the waitForElementToBeRemoved callback checks for the absence of an element without throwing an error.
   await waitForElementToBeRemoved(() => screen.queryByText(/Loading/i));
+
+  /* Verify image display and results count */
+
+  // select all the dog images and assign them to the dogImages variable. 
+  // The *AllBy* variant of the query returns an array containing multiple elements that match the specified role
+  const dogImages = screen.getAllByRole("img");
+
+  // The mocked fetch implementation contained two image URLs within the response. 
+  // With Jest’s toHaveLength matcher, you can verify that there are two images displayed.
+  expect(dogImages).toHaveLength(2);
+
+  // The getByText query will check that the proper results count appears in the right-hand corner.
+  expect(screen.getByText(/2 Results/i)).toBeInTheDocument();
+
+  // toHaveAccessibleName matchers verify that the appropriate alt text is associated with individual images.
+  expect(dogImages[0]).toHaveAccessibleName("cattledog 1 of 2");
+  expect(dogImages[1]).toHaveAccessibleName("cattledog 2 of 2");
 })
