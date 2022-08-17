@@ -1,4 +1,5 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitForElementToBeRemoved } from "@testing-library/react";
+import userEvent from '@testing-library/user-event';
 import mockFetch from "./mocks/mockFetch";
 import App from "./App";
 
@@ -26,7 +27,24 @@ test("renders the landing page", async () => {
   // findBy query verifies that the document contains an option with the value of husky. 
   // findBy queries are used when you need to test asynchronous code that is dependent on something being in the DOM after a period of time. 
   expect(await screen.findByRole("option", { name: "husky"})).toBeInTheDocument();
-  
+
   expect(screen.getByRole("button", { name: "Search" })).toBeDisabled();
   expect(screen.getByRole("img")).toBeInTheDocument();
 });
+
+test("should be able to search and display dog image results", async () => {
+  render(<App />);
+
+  //Simulate selecting an option and verifying its value
+  const select = screen.getByRole("combobox");
+
+  //wait for the cattledog option to appear in the document
+  expect(await screen.findByRole("option", { name: "cattledog"})).toBeInTheDocument();
+
+  // userEvent object simulates common user interactions
+  // selectOptions method selects the cattledog option that you waited for on the previous line
+  userEvent.selectOptions(select, "cattledog");
+
+  // asserts that the select variable contains the cattledog value selected above.
+  expect(select).toHaveValue("cattledog");
+})
