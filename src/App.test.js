@@ -10,7 +10,7 @@ afterEach(() => {
   jest.restoreAllMocks()
 })
 
-test("renders the landing page", () => {
+test("renders the landing page", async () => {
   render(<App />);  //render the component into DOM
 
   /* test if the landing page renders accurately
@@ -22,6 +22,11 @@ test("renders the landing page", () => {
   */
   expect(screen.getByRole("heading")).toHaveTextContent(/Doggy Directory/);
   expect(screen.getByRole("combobox")).toHaveDisplayValue("Select a breed");
+
+  // findBy query verifies that the document contains an option with the value of husky. 
+  // findBy queries are used when you need to test asynchronous code that is dependent on something being in the DOM after a period of time. 
+  expect(await screen.findByRole("option", { name: "husky"})).toBeInTheDocument();
+  
   expect(screen.getByRole("button", { name: "Search" })).toBeDisabled();
   expect(screen.getByRole("img")).toBeInTheDocument();
 });

@@ -14,9 +14,10 @@ const dogImagesResponse = {
     ],
 };
 
+/* an object that closely resembles the structure of what a fetch call would return in response to API calls within the application */
 export default async function mockFetch(url) {
     switch (url) {
-        /* the select dropdown that populates the list of breeds */
+        /* the select dropdown that populates the list of breeds through an API call */
         case "https://dog.ceo/api/breeds/list/all": {
             return {
                 ok: true,
