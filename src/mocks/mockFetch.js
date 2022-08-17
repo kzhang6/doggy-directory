@@ -16,6 +16,7 @@ const dogImagesResponse = {
 
 export default async function mockFetch(url) {
     switch (url) {
+        /* the select dropdown that populates the list of breeds */
         case "https://dog.ceo/api/breeds/list/all": {
             return {
                 ok: true,
@@ -23,6 +24,7 @@ export default async function mockFetch(url) {
                 json: async () => breedsListResponse,
             };
         }
+        /* the API call to retrieve dog images when a search is performed */
         case "https://dog.ceo/api/breed/husky/images" :
         case "https://dog.ceo/api/breed/cattledog/images": {
             return {
